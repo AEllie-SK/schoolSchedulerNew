@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single" android:id="@+id/grpMenuItems">
+
+        <item android:id="@+id/term"
+            android:icon="@drawable/term"
+            android:title="Term"
+            ></item>
+        <item android:id="@+id/courses"
+            android:icon="@drawable/courses"
+            android:title="Courses"
+            ></item>
+        <item android:id="@+id/assessments"
+            android:icon="@drawable/assessments"
+            android:title="Assessments"
+            ></item>
+        <item android:id="@+id/courseInstructor"
+            android:icon="@drawable/courseinstructors"
+            android:title="Course Instructor"
+            ></item>
+    </group>
+
+</menu>

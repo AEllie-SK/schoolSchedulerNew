@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">schoolScheduler</string>
+
+    <string name="navigation_drawer_open">Open Navigation Drawer</string>
+    <string name="navigation_drawer_close">Close Navigation Drawer</string>
+    <string name="lbl_instructorName">Name:</string>
+    <string name="txtInstructorName">Instructor Name:</string>
+    <string name="lbl_phoneNumber">Phone Number:</string>
+    <string name="lblCourseInstructor">Course Instructor:</string>
+    <string name="lblCourseStatus">Course Status:</string>
+    <string name="txtInsertCourseTitle">Enter Course Title:</string>
+    <string name="lblCourseStartDate">Start Date:</string>
+    <string name="toolbarCourses">Courses</string>Phone Number/string>
+
+    <string-array name="CoursesStatus">
+        <item>Plan to Take</item>
+        <item>In Progress</item>
+        <item>Completed</item>
+        <item>Dropped</item>
+    </string-array>
+
+</resources>
