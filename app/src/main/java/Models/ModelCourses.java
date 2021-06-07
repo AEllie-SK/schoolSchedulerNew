@@ -1,18 +1,16 @@
 package Models;
 
-import java.util.Date;
-
 public class ModelCourses {
     private String courseTitle;
-    private Date startDate;
-    private Date endDate;
+    private String startDate;
+    private String endDate;
     private String status;
     private String instructorName;
     private String courseNote;
 
     //Constructor
 
-    public ModelCourses(String courseTitle, Date startDate, Date endDate, String status, String instructorName,String courseNote) {
+    public ModelCourses(String courseTitle, String startDate, String endDate, String status, String instructorName, String courseNote) {
         this.courseTitle = courseTitle;
         this.startDate = startDate;
         this.endDate = endDate;
@@ -43,19 +41,19 @@ public class ModelCourses {
         this.courseTitle = courseTitle;
     }
 
-    public Date getStartDate() {
+    public String getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(Date startDate) {
+    public void setStartDate(String startDate) {
         this.startDate = startDate;
     }
 
-    public Date getEndDate() {
+    public String getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(Date endDate) {
+    public void setEndDate(String endDate) {
         this.endDate = endDate;
     }
 
@@ -71,7 +69,7 @@ public class ModelCourses {
         return instructorName;
     }
 
-    public String getCourseNotee() {
+    public String getCourseNote() {
         return courseNote;
     }
 

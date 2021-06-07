@@ -2,7 +2,7 @@
 <project version="4">
   <component name="DBNavigator.Project.DataEditorManager">
     <record-view-column-sorting-type value="BY_INDEX" />
-    <value-preview-text-wrapping value="true" />
+    <value-preview-text-wrapping value="false" />
     <value-preview-pinned value="false" />
   </component>
   <component name="DBNavigator.Project.DataExportManager">
@@ -24,24 +24,39 @@
     <autoscroll-to-editor value="false" />
     <autoscroll-from-editor value="true" />
     <show-object-properties value="true" />
-    <loaded-nodes />
+    <loaded-nodes>
+      <connection connection-id="f46d9490-7140-49bb-a4b3-60cf238b098d">
+        <schema name="main" object-types="table, view, constraint, index, column, dataset trigger" />
+      </connection>
+    </loaded-nodes>
   </component>
   <component name="DBNavigator.Project.DatabaseConsoleManager">
-    <connection id="5f53ce00-1513-43f9-84b1-159b3214b30d">
-      <console name="SCHOOLSCHEDULE" type="STANDARD" schema="" session="Main" />
+    <connection id="f46d9490-7140-49bb-a4b3-60cf238b098d">
+      <console name="SchoolSchedulerConnection" type="STANDARD" schema="main" session="Pool"><![CDATA[select * from INSTRUCTOR_TABLE;]]></console>
     </connection>
   </component>
   <component name="DBNavigator.Project.DatabaseFileManager">
     <open-files />
   </component>
   <component name="DBNavigator.Project.DatabaseSessionManager">
-    <connection id="5f53ce00-1513-43f9-84b1-159b3214b30d" />
+    <connection id="f46d9490-7140-49bb-a4b3-60cf238b098d" />
+  </component>
+  <component name="DBNavigator.Project.DatasetFilterManager">
+    <filter-actions connection-id="f46d9490-7140-49bb-a4b3-60cf238b098d" dataset="main.INSTRUCTOR_TABLE" active-filter-id="5ca1fa87-9614-4a05-b3c7-cb3d6d21b46f">
+      <filter id="5ca1fa87-9614-4a05-b3c7-cb3d6d21b46f" name="Filter 1" temporary="false" custom-name="false" type="basic" join-type="AND">
+        <condition column="emailAddress" operator="=" value="" active="true" />
+      </filter>
+    </filter-actions>
   </component>
   <component name="DBNavigator.Project.EditorStateManager">
     <last-used-providers />
   </component>
   <component name="DBNavigator.Project.ExecutionManager">
     <retain-sticky-names value="false" />
+  </component>
+  <component name="DBNavigator.Project.FileConnectionMappingManager">
+    <mapping file-url="file://$PROJECT_DIR$/SCHOOLSCHEDULE db.sql" connection-id="5f53ce00-1513-43f9-84b1-159b3214b30d" session-id="POOL" current-schema="main" />
+    <mapping file-url="file://$USER_HOME$/Downloads/Call-Rona-master/Call-Rona-master/SCHOOLSCHEDULE.sql" connection-id="5f53ce00-1513-43f9-84b1-159b3214b30d" session-id="MAIN" current-schema="main" />
   </component>
   <component name="DBNavigator.Project.MethodExecutionManager">
     <method-browser />
@@ -59,17 +74,19 @@
     <filters />
   </component>
   <component name="DBNavigator.Project.ScriptExecutionManager" clear-outputs="true">
-    <recently-used-interfaces />
+    <recently-used-interfaces>
+      <mapping database-type="SQLITE" interface-id="DEFAULT" />
+    </recently-used-interfaces>
   </component>
   <component name="DBNavigator.Project.Settings">
     <connections>
-      <connection id="5f53ce00-1513-43f9-84b1-159b3214b30d" active="true">
+      <connection id="f46d9490-7140-49bb-a4b3-60cf238b098d" active="true">
         <database>
-          <name value="SCHOOLSCHEDULE" />
-          <description value="" />
+          <name value="Connection" />
+          <description value="localhost" />
           <database-type value="SQLITE" />
           <config-type value="BASIC" />
-          <database-version value="9999.0" />
+          <database-version value="3.34" />
           <driver-source value="BUILTIN" />
           <driver-library value="" />
           <driver value="" />
@@ -79,6 +96,8 @@
           <database value="database" />
           <files>
             <file path="sqlite.db" schema="main" />
+            <file path="C:\sqlite\sqlite3.def" schema="" />
+            <file path="C:\sqlite\sqlite3.dll" schema="" />
           </files>
           <type value="NONE" />
           <user value="" />

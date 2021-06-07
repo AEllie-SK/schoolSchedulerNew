@@ -2,29 +2,42 @@ package Models;
 
 public class ModelCourseInstructor {
 
+    private int id;
     private String instructorName;
     private int phoneNumber;
     private String emailAddress;
 
     //Constructors
 
-    public ModelCourseInstructor(String instructorName, int phoneNumber, String emailAddress) {
+    public ModelCourseInstructor(int id, String instructorName, int phoneNumber, String emailAddress) {
+        this.id = id;
         this.instructorName = instructorName;
         this.phoneNumber = phoneNumber;
         this.emailAddress = emailAddress;
     }
     //to String Method to Print Content From Object Class
 
+    public ModelCourseInstructor(){
+    }
+
     @Override
     public String toString() {
-        return "CourseInstructor{" +
-                "instructorName='" + instructorName + '\'' +
+        return id +
+                ", instructorName= " + instructorName + '\'' +
                 ", phoneNumber=" + phoneNumber +
                 ", emailAddress='" + emailAddress + '\'' +
                 '}';
     }
 
     //Getters & Setters
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getInstructorName() {
         return instructorName;

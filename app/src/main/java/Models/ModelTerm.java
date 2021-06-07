@@ -3,14 +3,16 @@ package Models;
 import java.util.Date;
 
 public class ModelTerm {
+    private int id;
     private String termTitle;
-    private Date termStartDate;
-    private Date termEndDate;
+    private String termStartDate;
+    private String termEndDate;
 
     //Constructors
 
 
-    public ModelTerm(String termTitle, Date termStartDate, Date termEndDate) {
+    public ModelTerm(int id, String termTitle, String termStartDate, String termEndDate) {
+        this.id = id;
         this.termTitle = termTitle;
         this.termStartDate = termStartDate;
         this.termEndDate = termEndDate;
@@ -21,13 +23,22 @@ public class ModelTerm {
     @Override
     public String toString() {
         return "ModelTerm{" +
-                "termTitle='" + termTitle + '\'' +
+                "id=" + id +
+                ", termTitle='" + termTitle + '\'' +
                 ", termStartDate=" + termStartDate +
                 ", termEndDate=" + termEndDate +
                 '}';
     }
 
     //Getters &Setters
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getTermTitle() {
         return termTitle;
@@ -37,19 +48,19 @@ public class ModelTerm {
         this.termTitle = termTitle;
     }
 
-    public Date getTermStartDate() {
+    public String getTermStartDate() {
         return termStartDate;
     }
 
-    public void setTermStartDate(Date termStartDate) {
+    public void setTermStartDate(String termStartDate) {
         this.termStartDate = termStartDate;
     }
 
-    public Date getTermEndDate() {
+    public String getTermEndDate() {
         return termEndDate;
     }
 
-    public void setTermEndDate(Date termEndDate) {
+    public void setTermEndDate(String termEndDate) {
         this.termEndDate = termEndDate;
     }
 }

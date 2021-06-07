@@ -2,9 +2,9 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="horizontal"
     android:weightSum="100"
     tools:context=".CourseInstructor">
 
@@ -22,15 +22,17 @@
         app:layout_constraintTop_toTopOf="parent"></ImageView>
 
     <ListView
-            android:id="@+id/courseInstructorListView"
-            android:layout_width="275dp"
-            android:layout_height="495dp"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="4dp"
-            android:layout_marginEnd="84dp"
-            android:layout_marginRight="84dp"
-            app:layout_constraintEnd_toEndOf="@+id/imageView"
-            app:layout_constraintTop_toBottomOf="@+id/emailText"/>
+        android:id="@+id/courseInstructorListView"
+        android:layout_width="294dp"
+        android:layout_height="401dp"
+        android:layout_centerHorizontal="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/imageView"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.857" />
+
     <TextView
         android:id="@+id/InstructorName"
         android:layout_width="wrap_content"
@@ -74,19 +76,19 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/InstructorName" />
 
+
     <EditText
         android:id="@+id/insertPhoneNumber"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
+        android:hint="Enter phone number"
         android:inputType="phone"
-        android:text="000 000 0000"
         android:textSize="15sp"
-        app:layout_constraintHorizontal_bias="0.78"
+        app:layout_constraintHorizontal_bias="0.955"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/insertInstructorName" />
-
 
     <TextView
         android:id="@+id/emailText"
@@ -107,8 +109,8 @@
         android:layout_width="163dp"
         android:layout_height="41dp"
         android:layout_marginTop="6dp"
+        android:hint=" Enter email address "
         android:inputType="textEmailAddress"
-        android:text="Email@Email.com"
         android:textSize="15sp"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -171,6 +173,15 @@
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="@+id/imageView"
         app:layout_constraintTop_toTopOf="@+id/insertEmailText" />
+
+    <Button
+        android:id="@+id/btn_view_all"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/view_all"
+        app:layout_constraintBottom_toTopOf="@+id/courseInstructorListView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

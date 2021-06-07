@@ -9,17 +9,15 @@
 
 
     <ImageView
+        android:id="@+id/imageView3"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="4dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
         android:alpha="0.2"
         android:background="@drawable/background"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"></ImageView>
-
-
     <EditText
         android:id="@+id/selectTermtxt"
         android:layout_width="wrap_content"
@@ -48,7 +46,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/datePickerButton"
+        android:id="@+id/startDatePicker"
         style="?android:spinnerStyle"
         android:layout_width="135dp"
         android:layout_height="59dp"
@@ -78,7 +76,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/btnEndTerm"
+        android:id="@+id/endDatePicker"
         style="?android:spinnerStyle"
         android:layout_width="141dp"
         android:layout_height="67dp"
@@ -91,6 +89,29 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/endTermView" />
+
+    <Button
+        android:id="@+id/btnSubmitTerm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="432dp"
+        android:text="SUBMIT"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/btnViewTerms"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/view_all"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnSubmitTerm"
+        app:layout_constraintVertical_bias="0.158" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

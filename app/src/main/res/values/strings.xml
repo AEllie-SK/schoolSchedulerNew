@@ -10,7 +10,10 @@
     <string name="lblCourseStatus">Course Status:</string>
     <string name="txtInsertCourseTitle">Enter Course Title:</string>
     <string name="lblCourseStartDate">Start Date:</string>
-    <string name="toolbarCourses">Courses</string>Phone Number/string>
+    <string name="toolbarCourses">Courses</string>
+    <string name="course_instructor">Course Instructor:</string>
+    <string name="course_status">Course Status:</string>
+    <string name="view_all">VIEW ALL</string>Phone Number/string>
 
     <string-array name="CoursesStatus">
         <item>Plan to Take</item>

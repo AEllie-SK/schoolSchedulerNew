@@ -1,15 +1,21 @@
 package com.example.schoolschedulernew;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.*;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import com.example.schoolschedulernew.R;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.Spinner;
+import android.widget.Toast;
 
 import java.util.Calendar;
+
 
 
 public class Courses extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
@@ -41,8 +47,8 @@ public class Courses extends AppCompatActivity implements AdapterView.OnItemSele
 
 
         initDatePicker();
-        dateButton = findViewById(R.id.datePickerButton);
-        btnEndTerm =findViewById(R.id.btnEndTerm);
+        dateButton = findViewById(R.id.startDatePicker);
+        btnEndTerm =findViewById(R.id.endDatePicker);
         dateButton.setText(getTodaysDate());
         btnEndTerm.setText(getTodaysDate());
     }
@@ -128,7 +134,7 @@ public class Courses extends AppCompatActivity implements AdapterView.OnItemSele
     //Spinner Toast
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-    String text =parent.getItemAtPosition(position).toString();
+        String text =parent.getItemAtPosition(position).toString();
         Toast.makeText(this, "Selected", Toast.LENGTH_SHORT).show();
     }
 

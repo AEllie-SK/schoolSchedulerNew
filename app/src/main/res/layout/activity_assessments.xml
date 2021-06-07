@@ -46,7 +46,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/datePickerButton"
+        android:id="@+id/startDatePicker"
         style="?android:spinnerStyle"
         android:layout_width="135dp"
         android:layout_height="59dp"
@@ -76,7 +76,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/btnEndTerm"
+        android:id="@+id/endDatePicker"
         style="?android:spinnerStyle"
         android:layout_width="141dp"
         android:layout_height="67dp"

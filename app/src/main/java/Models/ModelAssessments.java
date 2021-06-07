@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class ModelAssessments {
     private String assessmentTitle;
-    private Date dateScheduled;
+    private String dueDate;
     private String examType;
     //exam Type OA or Performance Based
     private String courseTitle;
@@ -16,16 +16,16 @@ public class ModelAssessments {
     public String toString() {
         return "ModelAssessments{" +
                 "assessmentTitle='" + assessmentTitle + '\'' +
-                ", dateScheduled=" + dateScheduled +
+                ", dateScheduled=" + dueDate +
                 ", examType='" + examType + '\'' +
                 ", courseTitle='" + courseTitle + '\'' +
                 '}';
     }
 
     //Constructors
-    public ModelAssessments(String assessmentTitle, Date dateScheduled, String examType, String courseTitle) {
+    public ModelAssessments(String assessmentTitle, String dateScheduled, String examType, String courseTitle) {
         this.assessmentTitle = assessmentTitle;
-        this.dateScheduled = dateScheduled;
+        this.dueDate = dateScheduled;
         this.examType = examType;
         this.courseTitle = courseTitle;
     }
@@ -40,12 +40,12 @@ public class ModelAssessments {
         this.assessmentTitle = assessmentTitle;
     }
 
-    public Date getDateScheduled() {
-        return dateScheduled;
+    public String getDateScheduled() {
+        return dueDate;
     }
 
-    public void setDateScheduled(Date dateScheduled) {
-        this.dateScheduled = dateScheduled;
+    public void setDateScheduled(String dateScheduled) {
+        this.dueDate = dateScheduled;
     }
 
     public String getExamType() {

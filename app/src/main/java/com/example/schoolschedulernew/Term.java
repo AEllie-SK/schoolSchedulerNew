@@ -2,29 +2,62 @@ package com.example.schoolschedulernew;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
+
 import androidx.appcompat.app.AppCompatActivity;
-import com.example.schoolschedulernew.R;
 
 import java.util.Calendar;
 
+import DataBaseHelper.DOA_DatabaseHelper;
+
 public class Term extends AppCompatActivity
 {
+    public static SQLiteDatabase SchoolSchedule;
+
     private DatePickerDialog datePickerDialog;
-    private Button dateButton;
+    private Button termStartDate, submitButton;
+
+    ArrayAdapter termArrayAdapter;
+    DOA_DatabaseHelper databaseHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_term);
+
+        SQLiteDatabase db;
+        db = openOrCreateDatabase("SchoolSchedule.db", SQLiteDatabase.CREATE_IF_NECESSARY, null);
+
         initDatePicker();
-        dateButton = findViewById(R.id.datePickerButton);
-        dateButton.setText(getTodaysDate());
+
+        termStartDate = findViewById(R.id.startDatePicker);
+        termStartDate.setText(getTodaysDate());
+        submitButton = findViewById(R.id.btnSubmitTerm);
+
+
+//        submitButton.setOnClickListener(new View.OnClickListener() {
+//
+//            @Override
+//            public void onClick(View v) {
+//                // TODO Auto-generated method stub
+//                // Inserting known Languages
+//                Log.d("Insert: ", "Inserting ..");
+//                db.insert();
+//                db.insert(new values("value2"));
+//                db.insert(new values("value3"));
+//                db.insert(new values("value4"));
+//                Log.d("Insert", "DataBase Successfully Updated");
+//            }
+//        });
+
     }
+
 
     private String getTodaysDate()
     {
@@ -45,7 +78,7 @@ public class Term extends AppCompatActivity
             {
                 month = month + 1;
                 String date = makeDateString(day, month, year);
-                dateButton.setText(date);
+                termStartDate.setText(date);
             }
         };
 

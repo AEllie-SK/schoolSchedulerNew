@@ -1,65 +1,87 @@
 package com.example.schoolschedulernew;
 
-import DataBaseHelper.DOA_DatabaseHelper;
-import Models.ModelCourseInstructor;
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
-import androidx.appcompat.app.AppCompatActivity;
-import com.example.schoolschedulernew.R;
+
+import DataBaseHelper.DOA_DatabaseHelper;
+import Models.ModelCourseInstructor;
 
 public class CourseInstructor extends AppCompatActivity {
-
-    Button btnAdd, btnEdit, btnDelete;
-    EditText insertInstructorName, insertPhoneNumber, insertEmailText;
+    //reference to controls on layout (member variables)
+    Button btn_Add, btn_ViewAll;
+    EditText insertPhoneNumber, insertInstructorName,insertEmailText;
     ListView courseInstructorListView;
+
+    ArrayAdapter instructorArrayAdapter;
+    DOA_DatabaseHelper databaseHelper;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_course_instructor);
 
-        btnAdd =findViewById(R.id.btnAdd);
-        btnEdit =findViewById(R.id.btnEdit);
-        btnDelete =findViewById(R.id.btnDelete);
-        insertInstructorName =findViewById(R.id.courseInstructor);
-        insertPhoneNumber =findViewById(R.id.insertPhoneNumber);
-        insertEmailText =findViewById(R.id.insertEmailText);
-        courseInstructorListView =findViewById(R.id.courseInstructorListView);
 
-        //Onclick Listeners
-        btnAdd.setOnClickListener(new View.OnClickListener() {
+        btn_Add = findViewById(R.id.btnAdd);
+        btn_ViewAll = findViewById(R.id.btn_view_all);
+        insertInstructorName = findViewById(R.id.insertInstructorName);
+        insertPhoneNumber = findViewById(R.id.insertPhoneNumber);
+        insertEmailText = findViewById(R.id.insertEmailText);
+        courseInstructorListView = findViewById(R.id.courseInstructorListView);
+
+        databaseHelper = new DOA_DatabaseHelper(CourseInstructor.this);
+
+        ShowInstructorOnListView(databaseHelper);
+
+        //listeners
+        btn_Add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ModelCourseInstructor courseInstructor;
+
+                ModelCourseInstructor modelCourseInstructor;
                 try {
-                    courseInstructor = new ModelCourseInstructor(insertInstructorName.getText().toString(),
-                            Integer.parseInt(insertPhoneNumber.getText().toString()),insertEmailText.getText().toString());
-                    Toast.makeText(CourseInstructor.this, courseInstructor.toString(), Toast.LENGTH_SHORT).show();
+                    modelCourseInstructor = new ModelCourseInstructor(-1 , insertInstructorName.getText().toString(),
+                            Integer.parseInt(insertPhoneNumber.getText().toString()),insertEmailText.getText().toString() );
+                    Toast.makeText(CourseInstructor.this, modelCourseInstructor.toString(), Toast.LENGTH_SHORT).show();
 
-                }catch (Exception e) {
-                        Toast.makeText(CourseInstructor.this, "Error Adding Instructor", Toast.LENGTH_SHORT).show();
-                        courseInstructor =new ModelCourseInstructor("error",0,"error");
+                }
+                catch (Exception e) {
+                    Toast.makeText(CourseInstructor.this, "Error creating customer", Toast.LENGTH_SHORT).show();
+                    modelCourseInstructor = new ModelCourseInstructor(-1, "error", 0, "error");
+                }
+
+                DOA_DatabaseHelper databaseHelper = new DOA_DatabaseHelper(CourseInstructor.this);
+
+                boolean success = databaseHelper.addNewInstructor(modelCourseInstructor);
+
+                ShowInstructorOnListView(databaseHelper);
+
+                Toast.makeText(CourseInstructor.this, "Success" + success, Toast.LENGTH_SHORT).show();
             }
-                DOA_DatabaseHelper databaseHelper =new DOA_DatabaseHelper(CourseInstructor.this);
-                boolean success = databaseHelper.addOne(courseInstructor);
-                Toast.makeText(CourseInstructor.this, "Instructor Added Successfully " +success, Toast.LENGTH_SHORT).show();
-            }});
-        btnEdit.setOnClickListener(new View.OnClickListener() {
+        });
+        btn_ViewAll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(CourseInstructor.this, "Edit Button", Toast.LENGTH_SHORT).show();
+
+                DOA_DatabaseHelper databaseHelper = new DOA_DatabaseHelper(CourseInstructor.this);
+
+                ShowInstructorOnListView(databaseHelper);
 
             }
         });
-        btnDelete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(CourseInstructor.this, "Delete Button", Toast.LENGTH_SHORT).show();
-            }
-        });
+
+    }
+
+
+    private void ShowInstructorOnListView(DOA_DatabaseHelper databaseHelper2) {
+        instructorArrayAdapter = new ArrayAdapter<ModelCourseInstructor>(CourseInstructor.this, android.R.layout.simple_list_item_1, databaseHelper2.getEveryone());
+        courseInstructorListView.setAdapter(instructorArrayAdapter);
     }
 }
