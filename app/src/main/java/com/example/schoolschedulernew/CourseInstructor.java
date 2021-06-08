@@ -81,7 +81,7 @@ public class CourseInstructor extends AppCompatActivity {
 
 
     private void ShowInstructorOnListView(DOA_DatabaseHelper databaseHelper2) {
-        instructorArrayAdapter = new ArrayAdapter<ModelCourseInstructor>(CourseInstructor.this, android.R.layout.simple_list_item_1, databaseHelper2.getEveryone());
+        instructorArrayAdapter = new ArrayAdapter<ModelCourseInstructor>(CourseInstructor.this, android.R.layout.simple_list_item_1, databaseHelper2.getInstructorsToList());
         courseInstructorListView.setAdapter(instructorArrayAdapter);
     }
 }

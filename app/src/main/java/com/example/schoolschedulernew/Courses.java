@@ -11,8 +11,11 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
+
+import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.Calendar;
 
@@ -22,6 +25,7 @@ public class Courses extends AppCompatActivity implements AdapterView.OnItemSele
 
     private DatePickerDialog datePickerDialog;
     private Button dateButton, btnEndTerm;
+    private EditText etInstructorName;
     private Spinner courseSpinner;
 
     @Override
@@ -30,7 +34,15 @@ public class Courses extends AppCompatActivity implements AdapterView.OnItemSele
         setContentView(R.layout.activity_courses);
 
         //Spinner DropDown
-        courseSpinner =findViewById(R.id.courseSpinner);
+        courseSpinner =findViewById(R.id.courseStatusSpinner);
+        etInstructorName = findViewById(R.id.etInstructorName);
+
+        dateButton = findViewById(R.id.startDatePicker);
+        btnEndTerm =findViewById(R.id.endDatePicker);
+
+        dateButton.setText(getTodaysDate());
+        btnEndTerm.setText(getTodaysDate());
+
 
         ArrayAdapter<CharSequence> adapter =ArrayAdapter.createFromResource(
                 this,R.array.CoursesStatus, android.R.layout.simple_spinner_item);
@@ -47,10 +59,7 @@ public class Courses extends AppCompatActivity implements AdapterView.OnItemSele
 
 
         initDatePicker();
-        dateButton = findViewById(R.id.startDatePicker);
-        btnEndTerm =findViewById(R.id.endDatePicker);
-        dateButton.setText(getTodaysDate());
-        btnEndTerm.setText(getTodaysDate());
+
     }
 
     private String getTodaysDate()

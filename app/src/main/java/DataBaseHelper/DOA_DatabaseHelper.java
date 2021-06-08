@@ -204,7 +204,8 @@ public class DOA_DatabaseHelper extends SQLiteOpenHelper {
 
     }
 
-    public List<ModelCourseInstructor> getEveryone(){
+    //List for instructors
+    public List<ModelCourseInstructor> getInstructorsToList(){
         List <ModelCourseInstructor> returnList = new ArrayList<>();
 
         String queryString = "SELECT * FROM "+ INSTRUCTOR_TABLE;
@@ -227,6 +228,45 @@ public class DOA_DatabaseHelper extends SQLiteOpenHelper {
 
                 ModelCourseInstructor newInstructor = new ModelCourseInstructor(id , instructorName, phoneNumber, emailAddress);
                 returnList.add(newInstructor);
+
+            }
+            while (cursor.moveToNext());
+        }
+        else {
+
+            //failure to add to list
+
+        }
+
+        cursor.close();
+        db.close();
+        return returnList;
+    }
+
+    //List for Terms
+    public List<ModelTerm> getTermsToList(){
+        List <ModelTerm> returnList = new ArrayList<>();
+
+        String termQuery = "SELECT * FROM "+ TERM_TABLE;
+        SQLiteDatabase db = getReadableDatabase();
+
+        //cursor return type
+        Cursor cursor = db.rawQuery(termQuery, null);
+
+        if(cursor.moveToFirst()){
+
+            //loop through results, create new customer object foe each row
+            do{
+
+                int id = cursor.getInt(0);
+                String termTitle = cursor.getString(1);
+                String startDate = cursor.getString(2);
+                String endDate = cursor.getString(3);
+
+
+
+                ModelTerm newTerm = new ModelTerm(id , termTitle, startDate, endDate);
+                returnList.add(newTerm);
 
             }
             while (cursor.moveToNext());

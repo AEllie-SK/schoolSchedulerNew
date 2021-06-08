@@ -8,19 +8,27 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.Calendar;
 
 import DataBaseHelper.DOA_DatabaseHelper;
+import Models.ModelCourseInstructor;
+import Models.ModelTerm;
 
 public class Term extends AppCompatActivity
 {
     public static SQLiteDatabase SchoolSchedule;
 
     private DatePickerDialog datePickerDialog;
-    private Button termStartDate, submitButton;
+    private Button termStartDate, termEndDate, btnSubmitTerm, btnViewAll;
+    private EditText etSelectTerm;
+    private ListView termsListView;
+
 
     ArrayAdapter termArrayAdapter;
     DOA_DatabaseHelper databaseHelper;
@@ -31,16 +39,22 @@ public class Term extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_term);
 
-        SQLiteDatabase db;
-        db = openOrCreateDatabase("SchoolSchedule.db", SQLiteDatabase.CREATE_IF_NECESSARY, null);
+
+
+
+        etSelectTerm = findViewById(R.id.selectTermtxt);
+        termStartDate = findViewById(R.id.startDatePicker);
+        termStartDate.setText(getTodaysDate());
+        termEndDate = findViewById(R.id.endDatePicker);
+        termEndDate.setText(getTodaysDate());
+        btnViewAll = findViewById(R.id.btnViewTerms);
+        btnSubmitTerm = findViewById(R.id.btnSubmitTerm);
+        termsListView = findViewById(R.id.termsListView);
 
         initDatePicker();
 
-        termStartDate = findViewById(R.id.startDatePicker);
-        termStartDate.setText(getTodaysDate());
-        submitButton = findViewById(R.id.btnSubmitTerm);
-
-
+//        SQLiteDatabase db;
+//        db = openOrCreateDatabase("SchoolSchedule.db", SQLiteDatabase.CREATE_IF_NECESSARY, null);
 //        submitButton.setOnClickListener(new View.OnClickListener() {
 //
 //            @Override
@@ -55,6 +69,34 @@ public class Term extends AppCompatActivity
 //                Log.d("Insert", "DataBase Successfully Updated");
 //            }
 //        });
+
+
+        btnSubmitTerm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                ModelTerm modelTerm;
+                try {
+                    modelTerm = new ModelTerm(-1 , etSelectTerm.getText().toString(),termStartDate.getText().toString(),
+                            termEndDate.getText().toString() );
+                    Toast.makeText(Term.this, modelTerm.toString(), Toast.LENGTH_SHORT).show();
+
+                }
+                catch (Exception e) {
+                    Toast.makeText(Term.this, "Error creating customer", Toast.LENGTH_SHORT).show();
+                    modelTerm = new ModelTerm(-1, "error", "error", "error");
+                }
+
+                DOA_DatabaseHelper databaseHelper = new DOA_DatabaseHelper(Term.this);
+
+                boolean success = databaseHelper.addNewTerm(modelTerm);
+
+                ShowTermOnListView(databaseHelper);
+
+                Toast.makeText(Term.this, "Success" + success, Toast.LENGTH_SHORT).show();
+            }
+        });
+
 
     }
 
@@ -133,5 +175,10 @@ public class Term extends AppCompatActivity
     public void openDatePicker(View view)
     {
         datePickerDialog.show();
+    }
+
+    private void ShowTermOnListView(DOA_DatabaseHelper databaseHelper2) {
+        termArrayAdapter = new ArrayAdapter<ModelTerm>(Term.this, android.R.layout.simple_list_item_1, databaseHelper2.getTermsToList());
+        termsListView.setAdapter(termArrayAdapter);
     }
 }

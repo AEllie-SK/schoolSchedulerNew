@@ -22,8 +22,7 @@ public class ModelTerm {
 
     @Override
     public String toString() {
-        return "ModelTerm{" +
-                "id=" + id +
+        return  id +
                 ", termTitle='" + termTitle + '\'' +
                 ", termStartDate=" + termStartDate +
                 ", termEndDate=" + termEndDate +
