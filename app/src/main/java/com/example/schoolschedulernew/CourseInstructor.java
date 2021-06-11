@@ -78,6 +78,31 @@ public class CourseInstructor extends AppCompatActivity {
             }
         });
 
+        courseInstructorListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+
+                DOA_DatabaseHelper databaseHelper = new DOA_DatabaseHelper(CourseInstructor.this);
+                ModelCourseInstructor modelCourseInstructor;
+
+                try {
+                    modelCourseInstructor = new ModelCourseInstructor(-1 , insertInstructorName.getText().toString(),
+                            Integer.parseInt(insertPhoneNumber.getText().toString()),insertEmailText.getText().toString() );
+                    Toast.makeText(CourseInstructor.this, modelCourseInstructor.toString(), Toast.LENGTH_SHORT).show();
+
+                }
+                catch (Exception e) {
+                    Toast.makeText(CourseInstructor.this, "Error updating customer", Toast.LENGTH_SHORT).show();
+                    modelCourseInstructor = new ModelCourseInstructor(-1, "error", 0, "error");
+                }
+
+                databaseHelper.updateInstructor(modelCourseInstructor );
+
+                return  true;
+            }
+        });
+
     }
 
 
@@ -85,15 +110,7 @@ public class CourseInstructor extends AppCompatActivity {
         instructorArrayAdapter = new ArrayAdapter<ModelCourseInstructor>(CourseInstructor.this, android.R.layout.simple_list_item_1, databaseHelper2.getInstructorsToList());
         courseInstructorListView.setAdapter(instructorArrayAdapter);
 
-//        courseInstructorListView.setOnItemLongClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-//
-//                DOA_DatabaseHelper databaseHelper = new DOA_DatabaseHelper(CourseInstructor.this);
-//
-//                databaseHelper.deleteInstructor(ModelCourseInstructor.);
-//            }
-//        });
+
     }
 
 

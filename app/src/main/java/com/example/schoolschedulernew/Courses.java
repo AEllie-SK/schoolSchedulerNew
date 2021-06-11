@@ -39,7 +39,6 @@ public class Courses extends AppCompatActivity implements AdapterView.OnItemSele
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_courses);
 
-        //Spinner DropDown
         etCourseTitle = findViewById(R.id.etCourseTitle);
         courseStatusSpinner =findViewById(R.id.courseStatusSpinner);
         etInstructorName = findViewById(R.id.etInstructorName);
@@ -54,7 +53,7 @@ public class Courses extends AppCompatActivity implements AdapterView.OnItemSele
         startDatePicker.setText(getTodaysDate());
         endDatePicker.setText(getTodaysDate());
 
-
+        //Spinner DropDown
         ArrayAdapter<CharSequence> adapter =ArrayAdapter.createFromResource(
                 this,R.array.CoursesStatus, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -103,6 +102,22 @@ public class Courses extends AppCompatActivity implements AdapterView.OnItemSele
                 Toast.makeText(Courses.this, "Success" + success, Toast.LENGTH_SHORT).show();
             }
         });
+        startDatePicker.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        datePickerDialog.show();
+                    }
+                });
+        endDatePicker.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        datePickerDialog.show();
+                    }
+                });
     }
 
     private String getTodaysDate()

@@ -145,15 +145,19 @@ public class DOA_DatabaseHelper extends SQLiteOpenHelper {
         }
 
     }
-    public void updateInstructor(ModelCourseInstructor modelCourseInstructor) {
+    public boolean updateInstructor(ModelCourseInstructor modelCourseInstructor) {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues cv = new ContentValues();
+        cv.put(INSTRUCTOR_ID, modelCourseInstructor.getInstructorName());
         cv.put(INSTRUCTOR_NAME, modelCourseInstructor.getInstructorName());
         cv.put(PHONE_NUMBER, modelCourseInstructor.getPhoneNumber());
         cv.put(EMAIL_ADDRESS, modelCourseInstructor.getEmailAddress());
-        String whereClause = "id=?";
+
+        String whereClause = "instructorId=?";
         String whereArgs[] = {INSTRUCTOR_ID};
         db.update(INSTRUCTOR_TABLE, cv, whereClause, whereArgs);
+
+        return true;
     }
 
     public void deleteInstructor(ModelCourseInstructor modelCourseInstructor) {
