@@ -13,7 +13,16 @@
     <string name="toolbarCourses">Courses</string>
     <string name="course_instructor">Course Instructor:</string>
     <string name="course_status">Course Status:</string>
-    <string name="view_all">VIEW ALL</string>Phone Number/string>
+    <string name="view_all">VIEW ALL</string>
+    <string name="due_date">DUE DATE:</string>
+    <string name="exam_type">EXAM TYPE:</string>
+    <string name="assessment_title">ENTER ASSESSMENT TITLE:</string>
+    <string name="submit">SUBMIT</string>
+    <string name="courseTitle">ENTER COURSE TITLE</string>
+    <string name="tvCourseTitle">COURSE TITLE</string>
+    <string name="assessmentNotes" />
+    <string name="notes">Course Notes:</string>
+    <string name="notes_et">ENTER NOTES HERE</string>Phone Number/string>
 
     <string-array name="CoursesStatus">
         <item>Plan to Take</item>

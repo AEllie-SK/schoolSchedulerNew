@@ -1,38 +1,52 @@
 package Models;
 
 public class ModelCourses {
+    private int id;
     private String courseTitle;
     private String startDate;
     private String endDate;
     private String status;
-    private String instructorName;
     private String courseNote;
 
     //Constructor
 
-    public ModelCourses(String courseTitle, String startDate, String endDate, String status, String instructorName, String courseNote) {
+    public ModelCourses(int id, String courseTitle, String startDate, String endDate, String status, String courseNote) {
+        this.id = id;
         this.courseTitle = courseTitle;
         this.startDate = startDate;
         this.endDate = endDate;
         this.status = status;
-        this.instructorName = instructorName;
         this.courseNote = courseNote;
     }
+
+
+
 //To String
 
     @Override
     public String toString() {
-        return "ModelCourses{" +
-                "courseTitle='" + courseTitle + '\'' +
-                ", startDate=" + startDate +
-                ", endDate=" + endDate +
+        return id +
+                ", courseTitle='" + courseTitle + '\'' +
+                ", startDate='" + startDate + '\'' +
+                ", endDate='" + endDate + '\'' +
                 ", status='" + status + '\'' +
-                ", instructorName='" + instructorName + '\'' +
                 ", courseNote='" + courseNote + '\'' +
                 '}';
     }
 
+    public ModelCourses() {
+    }
     //Getters & Setters
+
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public String getCourseTitle() {
         return courseTitle;
     }
@@ -65,16 +79,8 @@ public class ModelCourses {
         this.status = status;
     }
 
-    public String getInstructorName() {
-        return instructorName;
-    }
-
     public String getCourseNote() {
         return courseNote;
-    }
-
-    public void setInstructorName(String instructorName) {
-        this.instructorName = instructorName;
     }
 
     public void setCourseNote(String courseNote) {

@@ -17,7 +17,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.util.Calendar;
 
 import DataBaseHelper.DOA_DatabaseHelper;
-import Models.ModelCourseInstructor;
 import Models.ModelTerm;
 
 public class Term extends AppCompatActivity

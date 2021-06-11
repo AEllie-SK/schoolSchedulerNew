@@ -3,34 +3,41 @@ package Models;
 import java.util.Date;
 
 public class ModelAssessments {
+    private int id;
     private String assessmentTitle;
     private String dueDate;
     private String examType;
     //exam Type OA or Performance Based
-    private String courseTitle;
 
     //to String
 
 
     @Override
     public String toString() {
-        return "ModelAssessments{" +
-                "assessmentTitle='" + assessmentTitle + '\'' +
-                ", dateScheduled=" + dueDate +
-                ", examType='" + examType + '\'' +
-                ", courseTitle='" + courseTitle + '\'' +
-                '}';
+        return id + '\'' +
+                ") Title: " + assessmentTitle + "\n" +
+                " Due date: " + dueDate + "\n" +
+                " Exam type: " + examType + "\n" ;
     }
 
-    //Constructors
-    public ModelAssessments(String assessmentTitle, String dateScheduled, String examType, String courseTitle) {
+    public ModelAssessments(int id, String assessmentTitle, String dueDate, String examType) {
+        this.id = id;
         this.assessmentTitle = assessmentTitle;
-        this.dueDate = dateScheduled;
+        this.dueDate = dueDate;
         this.examType = examType;
-        this.courseTitle = courseTitle;
     }
+
 
     //Getters & Setters
+
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getAssessmentTitle() {
         return assessmentTitle;
@@ -40,12 +47,12 @@ public class ModelAssessments {
         this.assessmentTitle = assessmentTitle;
     }
 
-    public String getDateScheduled() {
+    public String getDueDate() {
         return dueDate;
     }
 
-    public void setDateScheduled(String dateScheduled) {
-        this.dueDate = dateScheduled;
+    public void setDueDate(String dueDate) {
+        this.dueDate = dueDate;
     }
 
     public String getExamType() {
@@ -56,11 +63,5 @@ public class ModelAssessments {
         this.examType = examType;
     }
 
-    public String getCourseTitle() {
-        return courseTitle;
-    }
 
-    public void setCourseTitle(String courseTitle) {
-        this.courseTitle = courseTitle;
-    }
 }

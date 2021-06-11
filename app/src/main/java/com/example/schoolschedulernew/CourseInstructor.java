@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -83,5 +84,17 @@ public class CourseInstructor extends AppCompatActivity {
     private void ShowInstructorOnListView(DOA_DatabaseHelper databaseHelper2) {
         instructorArrayAdapter = new ArrayAdapter<ModelCourseInstructor>(CourseInstructor.this, android.R.layout.simple_list_item_1, databaseHelper2.getInstructorsToList());
         courseInstructorListView.setAdapter(instructorArrayAdapter);
+
+//        courseInstructorListView.setOnItemLongClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+//
+//                DOA_DatabaseHelper databaseHelper = new DOA_DatabaseHelper(CourseInstructor.this);
+//
+//                databaseHelper.deleteInstructor(ModelCourseInstructor.);
+//            }
+//        });
     }
+
+
 }

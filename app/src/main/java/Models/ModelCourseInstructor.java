@@ -23,9 +23,9 @@ public class ModelCourseInstructor {
     @Override
     public String toString() {
         return id +
-                ", instructorName= " + instructorName + '\'' +
-                ", phoneNumber=" + phoneNumber +
-                ", emailAddress='" + emailAddress + '\'' +
+                ") " + instructorName + '\'' +
+                ", Tel:" + phoneNumber +
+                ", Email:'" + emailAddress + '\'' +
                 '}';
     }
 

@@ -5,51 +5,62 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.google.android.material.textfield.TextInputLayout;
-
 import java.util.Calendar;
 
+import DataBaseHelper.DOA_DatabaseHelper;
+import Models.ModelCourses;
 
 
 public class Courses extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     private DatePickerDialog datePickerDialog;
-    private Button dateButton, btnEndTerm;
-    private EditText etInstructorName;
-    private Spinner courseSpinner;
+    private Button startDatePicker, endDatePicker, btnSubmitCourses, btnViewCourses;
+    private EditText etCourseTitle, etInstructorName, etCourseNote;
+    private Spinner courseStatusSpinner;
+    private ListView lvCourses;
 
+    ArrayAdapter courseArrayAdapter;
+    DOA_DatabaseHelper databaseHelper;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_courses);
 
         //Spinner DropDown
-        courseSpinner =findViewById(R.id.courseStatusSpinner);
+        etCourseTitle = findViewById(R.id.etCourseTitle);
+        courseStatusSpinner =findViewById(R.id.courseStatusSpinner);
         etInstructorName = findViewById(R.id.etInstructorName);
+        etCourseNote = findViewById(R.id.etCourseNote);
+        lvCourses = findViewById(R.id.lvCourses);
 
-        dateButton = findViewById(R.id.startDatePicker);
-        btnEndTerm =findViewById(R.id.endDatePicker);
+        btnSubmitCourses = findViewById(R.id.btnSubmitCourse);
+        btnViewCourses = findViewById(R.id.btnViewCourses);
+        startDatePicker = findViewById(R.id.startDatePicker);
+        endDatePicker =findViewById(R.id.endDatePicker);
 
-        dateButton.setText(getTodaysDate());
-        btnEndTerm.setText(getTodaysDate());
+        startDatePicker.setText(getTodaysDate());
+        endDatePicker.setText(getTodaysDate());
 
 
         ArrayAdapter<CharSequence> adapter =ArrayAdapter.createFromResource(
                 this,R.array.CoursesStatus, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        courseSpinner.setAdapter(adapter);
+        courseStatusSpinner.setAdapter(adapter);
 
-        courseSpinner.setOnItemSelectedListener(this);
+        courseStatusSpinner.setOnItemSelectedListener(this);
 
 
         //Create Toolbar
@@ -59,7 +70,39 @@ public class Courses extends AppCompatActivity implements AdapterView.OnItemSele
 
 
         initDatePicker();
+        databaseHelper = new DOA_DatabaseHelper(Courses.this);
 
+
+        //listeners
+        btnSubmitCourses.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                ModelCourses modelCourses;
+                try {
+                    modelCourses = new ModelCourses(-1 , etCourseTitle.getText().toString(),
+                            startDatePicker.getText().toString(),
+                            endDatePicker.getText().toString(),
+                            courseStatusSpinner.getSelectedItem().toString(),
+                            etCourseNote.getText().toString());
+
+                    Toast.makeText(Courses.this, modelCourses.toString(), Toast.LENGTH_SHORT).show();
+
+                }
+                catch (Exception e) {
+                    Toast.makeText(Courses.this, "Error creating customer", Toast.LENGTH_SHORT).show();
+                    modelCourses = new ModelCourses(-1, "error", "error", "error","error","error");
+                }
+
+                DOA_DatabaseHelper databaseHelper = new DOA_DatabaseHelper(Courses.this);
+
+                boolean success = databaseHelper.addNewCourse(modelCourses);
+
+                ShowCoursesOnListView(databaseHelper);
+
+                Toast.makeText(Courses.this, "Success" + success, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private String getTodaysDate()
@@ -81,7 +124,7 @@ public class Courses extends AppCompatActivity implements AdapterView.OnItemSele
             {
                 month = month + 1;
                 String date = makeDateString(day, month, year);
-                dateButton.setText(date);
+                startDatePicker.setText(date);
             }
         };
 
@@ -151,5 +194,18 @@ public class Courses extends AppCompatActivity implements AdapterView.OnItemSele
     public void onNothingSelected(AdapterView<?> parent) {
 
     }
+        private void ShowCoursesOnListView(DOA_DatabaseHelper databaseHelper2) {
+            courseArrayAdapter = new ArrayAdapter<ModelCourses>(
+                    Courses.this, android.R.layout.simple_list_item_1, databaseHelper2.getCoursesList());
+            lvCourses.setAdapter(courseArrayAdapter);
 
-}
+            lvCourses.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    Toast.makeText(Courses.this, "i am tayad!", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+
+    }
+

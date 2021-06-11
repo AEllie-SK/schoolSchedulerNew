@@ -5,6 +5,7 @@ import Models.ModelCourseInstructor;
 import Models.ModelCourses;
 import Models.ModelTerm;
 
+import android.content.ClipData;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -42,9 +43,9 @@ public class DOA_DatabaseHelper extends SQLiteOpenHelper {
 
     //Assessment table columns
     public static final String ASSESSMENT_ID = "assessmentId";
-    public static final String ASSESSMENT_NAME = "assessmentName";
+    public static final String ASSESSMENT_NAME = "assessmentTitle";
     public static final String DUE_DATE = "dueDate";
-    public static final String EXAM_TYPE = "endDate";
+    public static final String EXAM_TYPE = "examType";
 
     //Course table columns
     public static final String COURSE_ID = "courseId";
@@ -144,6 +145,23 @@ public class DOA_DatabaseHelper extends SQLiteOpenHelper {
         }
 
     }
+    public void updateInstructor(ModelCourseInstructor modelCourseInstructor) {
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put(INSTRUCTOR_NAME, modelCourseInstructor.getInstructorName());
+        cv.put(PHONE_NUMBER, modelCourseInstructor.getPhoneNumber());
+        cv.put(EMAIL_ADDRESS, modelCourseInstructor.getEmailAddress());
+        String whereClause = "id=?";
+        String whereArgs[] = {INSTRUCTOR_ID};
+        db.update(INSTRUCTOR_TABLE, cv, whereClause, whereArgs);
+    }
+
+    public void deleteInstructor(ModelCourseInstructor modelCourseInstructor) {
+        SQLiteDatabase db = getWritableDatabase();
+        String whereClause = "id=?";
+        String whereArgs[] = {INSTRUCTOR_ID};
+        db.delete("Items", whereClause, whereArgs);
+    }
 
     //Add term rows
     public boolean addNewTerm(ModelTerm modelTerm) {
@@ -170,8 +188,9 @@ public class DOA_DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
 
         cv.put(ASSESSMENT_NAME, modelAssessments.getAssessmentTitle());
-        cv.put(DUE_DATE, modelAssessments.getDateScheduled());
+        cv.put(DUE_DATE, modelAssessments.getDueDate());
         cv.put(EXAM_TYPE, modelAssessments.getExamType());
+
 
 
         long result = db.insert(ASSESSMENT_TABLE, null, cv);
@@ -182,6 +201,8 @@ public class DOA_DatabaseHelper extends SQLiteOpenHelper {
         }
 
     }
+
+
 
     //Add course rows
     public boolean addNewCourse(ModelCourses modelCourses) {
@@ -267,6 +288,85 @@ public class DOA_DatabaseHelper extends SQLiteOpenHelper {
 
                 ModelTerm newTerm = new ModelTerm(id , termTitle, startDate, endDate);
                 returnList.add(newTerm);
+
+            }
+            while (cursor.moveToNext());
+        }
+        else {
+
+            //failure to add to list
+
+        }
+
+        cursor.close();
+        db.close();
+        return returnList;
+    }
+
+    public List<ModelAssessments> getAssessmentsList(){
+        List <ModelAssessments> returnList = new ArrayList<>();
+
+        String assessmentQuery = "SELECT * FROM "+ ASSESSMENT_TABLE;
+        SQLiteDatabase db = getReadableDatabase();
+
+        //cursor return type
+        Cursor cursor = db.rawQuery(assessmentQuery, null);
+
+        if(cursor.moveToFirst()){
+
+            //loop through results, create new customer object foe each row
+            do{
+
+                int id = cursor.getInt(0);
+                String assessmentTitle = cursor.getString(1);
+                String dueDate = cursor.getString(2);
+                String examType = cursor.getString(3);
+                String courseTitle = cursor.getString(4);
+
+
+
+                ModelAssessments newAssessment = new ModelAssessments(id , assessmentTitle, dueDate, examType);
+                returnList.add(newAssessment);
+
+            }
+            while (cursor.moveToNext());
+        }
+        else {
+
+            //failure to add to list
+
+        }
+
+        cursor.close();
+        db.close();
+        return returnList;
+    }
+    public List<ModelCourses> getCoursesList(){
+        List <ModelCourses> returnList = new ArrayList<>();
+
+        String courseQuery = "SELECT * FROM "+ COURSE_TABLE;
+        SQLiteDatabase db = getReadableDatabase();
+
+        //cursor return type
+        Cursor cursor = db.rawQuery(courseQuery, null);
+
+        if(cursor.moveToFirst()){
+
+            //loop through results, create new customer object foe each row
+            do{
+
+                int id = cursor.getInt(0);
+                String courseName = cursor.getString(1);
+                String startDate = cursor.getString(2);
+                String endDate = cursor.getString(3);
+                String status = cursor.getString(4);
+                String note = cursor.getString(6);
+
+
+
+
+                ModelCourses newCourse = new ModelCourses(id , courseName, startDate, endDate, status, note);
+                returnList.add(newCourse);
 
             }
             while (cursor.moveToNext());
