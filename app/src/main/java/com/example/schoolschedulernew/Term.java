@@ -1,10 +1,12 @@
 package com.example.schoolschedulernew;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -12,72 +14,68 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import java.util.Calendar;
 
 import DataBaseHelper.DOA_DatabaseHelper;
 import Models.ModelTerm;
 
-public class Term extends AppCompatActivity
-{
-    public static SQLiteDatabase SchoolSchedule;
 
-    private DatePickerDialog datePickerDialog;
-    private Button termStartDate, termEndDate, btnSubmitTerm, btnViewAll;
-    private EditText etSelectTerm;
-    private ListView termsListView;
+public class Term extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
+    private DatePickerDialog startDatePickerDialog, endDatePickerDialog;
+    private Button startDatePicker, endDatePicker, btnSubmitTerm, btnViewTerms;
+    private EditText etTermTitle;
+    private ListView lvTerm;
+
+//    int DATE_PICKER_TO = 0;
+//    int DATE_PICKER_FROM = 1;
+//    private static final int    DIALOG_DATE_PICKER  = 100;
+//    private int       datePickerInput;
 
     ArrayAdapter termArrayAdapter;
     DOA_DatabaseHelper databaseHelper;
-
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_term);
 
+        etTermTitle = findViewById(R.id.etTermTitle);
 
-
-
-        etSelectTerm = findViewById(R.id.selectTermtxt);
-        termStartDate = findViewById(R.id.startDatePicker);
-        termStartDate.setText(getTodaysDate());
-        termEndDate = findViewById(R.id.endDatePicker);
-        termEndDate.setText(getTodaysDate());
-        btnViewAll = findViewById(R.id.btnViewTerms);
         btnSubmitTerm = findViewById(R.id.btnSubmitTerm);
-        termsListView = findViewById(R.id.termsListView);
+        btnViewTerms = findViewById(R.id.btnViewTerms);
+        startDatePicker = findViewById(R.id.startDatePicker);
+        endDatePicker =findViewById(R.id.endDatePicker);
+        lvTerm = findViewById(R.id.termsListView);
+
+        startDatePicker.setText(getTodaysDate());
+        endDatePicker.setText(getTodaysDate());
+
+
+
+
+        //Create Toolbar
+//        Toolbar toolbar = findViewById(R.id.coursesToolbar);
+//        setSupportActionBar(toolbar);
+//Tool Bar Not Working (Need a Miracle)
+
 
         initDatePicker();
-
-//        SQLiteDatabase db;
-//        db = openOrCreateDatabase("SchoolSchedule.db", SQLiteDatabase.CREATE_IF_NECESSARY, null);
-//        submitButton.setOnClickListener(new View.OnClickListener() {
-//
-//            @Override
-//            public void onClick(View v) {
-//                // TODO Auto-generated method stub
-//                // Inserting known Languages
-//                Log.d("Insert: ", "Inserting ..");
-//                db.insert();
-//                db.insert(new values("value2"));
-//                db.insert(new values("value3"));
-//                db.insert(new values("value4"));
-//                Log.d("Insert", "DataBase Successfully Updated");
-//            }
-//        });
+        databaseHelper = new DOA_DatabaseHelper(Term.this);
 
 
+
+
+        //listeners
         btnSubmitTerm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 ModelTerm modelTerm;
                 try {
-                    modelTerm = new ModelTerm(-1 , etSelectTerm.getText().toString(),termStartDate.getText().toString(),
-                            termEndDate.getText().toString() );
+                    modelTerm = new ModelTerm(-1 , etTermTitle.getText().toString(),
+                            startDatePicker.getText().toString(),
+                            endDatePicker.getText().toString());
+
                     Toast.makeText(Term.this, modelTerm.toString(), Toast.LENGTH_SHORT).show();
 
                 }
@@ -90,50 +88,106 @@ public class Term extends AppCompatActivity
 
                 boolean success = databaseHelper.addNewTerm(modelTerm);
 
-                ShowTermOnListView(databaseHelper);
+                ShowTermsOnListView(databaseHelper);
 
                 Toast.makeText(Term.this, "Success" + success, Toast.LENGTH_SHORT).show();
             }
         });
+        startDatePicker.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
 
+                        startDatePickerDialog.show();
+                    }
+                });
+        endDatePicker.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        endDatePickerDialog.show();
+                    }
+                });
 
     }
-
 
     private String getTodaysDate()
     {
-        Calendar cal = Calendar.getInstance();
-        int year = cal.get(Calendar.YEAR);
-        int month = cal.get(Calendar.MONTH);
+        Calendar today = Calendar.getInstance();
+        int year = today.get(Calendar.YEAR);
+        int month = today.get(Calendar.MONTH);
         month = month + 1;
-        int day = cal.get(Calendar.DAY_OF_MONTH);
+        int day = today.get(Calendar.DAY_OF_MONTH);
         return makeDateString(day, month, year);
     }
-
     private void initDatePicker()
     {
-        DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener()
-        {
+        DatePickerDialog.OnDateSetListener startDateSetListener, endDateSetListener;
+        startDateSetListener = new DatePickerDialog.OnDateSetListener() {
             @Override
-            public void onDateSet(DatePicker datePicker, int year, int month, int day)
-            {
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+
                 month = month + 1;
-                String date = makeDateString(day, month, year);
-                termStartDate.setText(date);
+                String date = makeDateString(dayOfMonth, month, year);
+                startDatePicker.setText(date);
+            }
+        };
+        endDateSetListener = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+
+                month = month + 1;
+                String date = makeDateString(dayOfMonth, month, year);
+                endDatePicker.setText(date);
             }
         };
 
+
+
+
+
         Calendar cal = Calendar.getInstance();
-        int year = cal.get(Calendar.YEAR);
-        int month = cal.get(Calendar.MONTH);
-        int day = cal.get(Calendar.DAY_OF_MONTH);
+        int sYear = cal.get(Calendar.YEAR);
+        int sMonth = cal.get(Calendar.MONTH);
+        int sDay = cal.get(Calendar.DAY_OF_MONTH);
 
-        int style = AlertDialog.THEME_HOLO_LIGHT;
+        int sStyle = AlertDialog.THEME_HOLO_LIGHT;
 
-        datePickerDialog = new DatePickerDialog(this, style, dateSetListener, year, month, day);
+        startDatePickerDialog = new DatePickerDialog(this, sStyle, startDateSetListener, sYear, sMonth, sDay);
         //datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
 
+//        Calendar eCal = Calendar.getInstance();
+        int eYear = cal.get(Calendar.YEAR);
+        int eMonth = cal.get(Calendar.MONTH);
+        int eDay = cal.get(Calendar.DAY_OF_MONTH);
+
+        int eStyle = AlertDialog.THEME_HOLO_LIGHT;
+
+        endDatePickerDialog = new DatePickerDialog(this, eStyle, endDateSetListener, eYear, eMonth, eDay);
+        //datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
+
+
+
+//        @Override
+//        protected Dialog onCreateDialog (int id){
+//
+//            switch (id) {
+//                case DATE_PICKER_FROM:
+//                    return new DatePickerDialog(this, startDateSetListener, sYear, sMonth, sDay);
+//                case DATE_PICKER_TO:
+//                    return new DatePickerDialog(this, endDateSetListener, eYear, eMonth, eDay);
+//            }
+//            return null;
     }
+
+
+
+
+
+
+
+
 
     private String makeDateString(int day, int month, int year)
     {
@@ -173,11 +227,35 @@ public class Term extends AppCompatActivity
 
     public void openDatePicker(View view)
     {
-        datePickerDialog.show();
+        startDatePickerDialog.show();
     }
 
-    private void ShowTermOnListView(DOA_DatabaseHelper databaseHelper2) {
-        termArrayAdapter = new ArrayAdapter<ModelTerm>(Term.this, android.R.layout.simple_list_item_1, databaseHelper2.getTermsToList());
-        termsListView.setAdapter(termArrayAdapter);
+    //Spinner Toast
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        String text =parent.getItemAtPosition(position).toString();
+        Toast.makeText(this, "Selected", Toast.LENGTH_SHORT).show();
     }
+
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
+    }
+    private void ShowTermsOnListView(DOA_DatabaseHelper databaseHelper2) {
+        termArrayAdapter = new ArrayAdapter<ModelTerm>(
+                Term.this, android.R.layout.simple_list_item_1, databaseHelper2.getTermsToList());
+        lvTerm.setAdapter(termArrayAdapter);
+
+        lvTerm.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(Term.this, "i am tayad!", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
 }
+
+
+
