@@ -10,14 +10,16 @@
 //Put 80 Before # Color to make Transparent
 
     <androidx.constraintlayout.utils.widget.ImageFilterView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:padding="16dp"
-        android:src="@mipmap/ic_launcher_round"></androidx.constraintlayout.utils.widget.ImageFilterView>
+        android:src="@drawable/outline_face_24">
+
+    </androidx.constraintlayout.utils.widget.ImageFilterView>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="16dp"
-        android:text="Welcome To Home Page"></TextView>
+        android:text="School Scheduler"></TextView>
 </LinearLayout>

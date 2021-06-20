@@ -5,9 +5,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
-import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -26,11 +24,16 @@ import Models.ModelCourses;
 
 public class Courses extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
-    private DatePickerDialog datePickerDialog;
+    private DatePickerDialog startDatePickerDialog, endDatePickerDialog;
     private Button startDatePicker, endDatePicker, btnSubmitCourses, btnViewCourses;
     private EditText etCourseTitle, etInstructorName, etCourseNote;
     private Spinner courseStatusSpinner;
     private ListView lvCourses;
+
+    int DATE_PICKER_TO = 0;
+    int DATE_PICKER_FROM = 1;
+    private static final int        DIALOG_DATE_PICKER  = 100;
+    private int                     datePickerInput;
 
     ArrayAdapter courseArrayAdapter;
     DOA_DatabaseHelper databaseHelper;
@@ -72,6 +75,8 @@ public class Courses extends AppCompatActivity implements AdapterView.OnItemSele
         databaseHelper = new DOA_DatabaseHelper(Courses.this);
 
 
+
+
         //listeners
         btnSubmitCourses.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -107,7 +112,7 @@ public class Courses extends AppCompatActivity implements AdapterView.OnItemSele
                     @Override
                     public void onClick(View v) {
 
-                        datePickerDialog.show();
+                        startDatePickerDialog.show();
                     }
                 });
         endDatePicker.setOnClickListener(
@@ -115,112 +120,156 @@ public class Courses extends AppCompatActivity implements AdapterView.OnItemSele
                     @Override
                     public void onClick(View v) {
 
-                        datePickerDialog.show();
+                        endDatePickerDialog.show();
                     }
                 });
+
     }
 
     private String getTodaysDate()
     {
-        Calendar cal = Calendar.getInstance();
-        int year = cal.get(Calendar.YEAR);
-        int month = cal.get(Calendar.MONTH);
+        Calendar today = Calendar.getInstance();
+        int year = today.get(Calendar.YEAR);
+        int month = today.get(Calendar.MONTH);
         month = month + 1;
-        int day = cal.get(Calendar.DAY_OF_MONTH);
+        int day = today.get(Calendar.DAY_OF_MONTH);
         return makeDateString(day, month, year);
     }
-
     private void initDatePicker()
     {
-        DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener()
-        {
+        DatePickerDialog.OnDateSetListener startDateSetListener, endDateSetListener;
+        startDateSetListener = new DatePickerDialog.OnDateSetListener() {
             @Override
-            public void onDateSet(DatePicker datePicker, int year, int month, int day)
-            {
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+
                 month = month + 1;
-                String date = makeDateString(day, month, year);
+                String date = makeDateString(dayOfMonth, month, year);
                 startDatePicker.setText(date);
             }
         };
+        endDateSetListener = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+
+                month = month + 1;
+                String date = makeDateString(dayOfMonth, month, year);
+                endDatePicker.setText(date);
+            }
+        };
+
+
+
+
 
         Calendar cal = Calendar.getInstance();
-        int year = cal.get(Calendar.YEAR);
-        int month = cal.get(Calendar.MONTH);
-        int day = cal.get(Calendar.DAY_OF_MONTH);
+        int sYear = cal.get(Calendar.YEAR);
+        int sMonth = cal.get(Calendar.MONTH);
+        int sDay = cal.get(Calendar.DAY_OF_MONTH);
 
-        int style = AlertDialog.THEME_HOLO_LIGHT;
+        int sStyle = AlertDialog.THEME_HOLO_LIGHT;
 
-        datePickerDialog = new DatePickerDialog(this, style, dateSetListener, year, month, day);
+        startDatePickerDialog = new DatePickerDialog(this, sStyle, startDateSetListener, sYear, sMonth, sDay);
         //datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
 
-    }
+//        Calendar eCal = Calendar.getInstance();
+        int eYear = cal.get(Calendar.YEAR);
+        int eMonth = cal.get(Calendar.MONTH);
+        int eDay = cal.get(Calendar.DAY_OF_MONTH);
+
+        int eStyle = AlertDialog.THEME_HOLO_LIGHT;
+
+        endDatePickerDialog = new DatePickerDialog(this, eStyle, endDateSetListener, eYear, eMonth, eDay);
+        //datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
 
 
 
-    private String makeDateString(int day, int month, int year)
-    {
-        return getMonthFormat(month) + " " + day + " " + year;
-    }
-
-    private String getMonthFormat(int month)
-    {
-        if(month == 1)
-            return "JAN";
-        if(month == 2)
-            return "FEB";
-        if(month == 3)
-            return "MAR";
-        if(month == 4)
-            return "APR";
-        if(month == 5)
-            return "MAY";
-        if(month == 6)
-            return "JUN";
-        if(month == 7)
-            return "JUL";
-        if(month == 8)
-            return "AUG";
-        if(month == 9)
-            return "SEP";
-        if(month == 10)
-            return "OCT";
-        if(month == 11)
-            return "NOV";
-        if(month == 12)
-            return "DEC";
-
-        //default should never happen
-        return "JAN";
-    }
-
-    public void openDatePicker(View view)
-    {
-        datePickerDialog.show();
-    }
-
-    //Spinner Toast
-    @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        String text =parent.getItemAtPosition(position).toString();
-        Toast.makeText(this, "Selected", Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> parent) {
-
-    }
-        private void ShowCoursesOnListView(DOA_DatabaseHelper databaseHelper2) {
-            courseArrayAdapter = new ArrayAdapter<ModelCourses>(
-                    Courses.this, android.R.layout.simple_list_item_1, databaseHelper2.getCoursesList());
-            lvCourses.setAdapter(courseArrayAdapter);
-
-            lvCourses.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    Toast.makeText(Courses.this, "i am tayad!", Toast.LENGTH_SHORT).show();
-                }
-            });
+//        @Override
+//        protected Dialog onCreateDialog (int id){
+//
+//            switch (id) {
+//                case DATE_PICKER_FROM:
+//                    return new DatePickerDialog(this, startDateSetListener, sYear, sMonth, sDay);
+//                case DATE_PICKER_TO:
+//                    return new DatePickerDialog(this, endDateSetListener, eYear, eMonth, eDay);
+//            }
+//            return null;
         }
 
+
+
+
+
+
+
+
+
+        private String makeDateString(int day, int month, int year)
+        {
+            return getMonthFormat(month) + " " + day + " " + year;
+        }
+
+        private String getMonthFormat(int month)
+        {
+            if(month == 1)
+                return "JAN";
+            if(month == 2)
+                return "FEB";
+            if(month == 3)
+                return "MAR";
+            if(month == 4)
+                return "APR";
+            if(month == 5)
+                return "MAY";
+            if(month == 6)
+                return "JUN";
+            if(month == 7)
+                return "JUL";
+            if(month == 8)
+                return "AUG";
+            if(month == 9)
+                return "SEP";
+            if(month == 10)
+                return "OCT";
+            if(month == 11)
+                return "NOV";
+            if(month == 12)
+                return "DEC";
+
+            //default should never happen
+            return "JAN";
+        }
+
+        public void openDatePicker(View view)
+        {
+            startDatePickerDialog.show();
+        }
+
+        //Spinner Toast
+        @Override
+        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            String text =parent.getItemAtPosition(position).toString();
+            Toast.makeText(this, "Selected", Toast.LENGTH_SHORT).show();
+        }
+
+
+        @Override
+        public void onNothingSelected(AdapterView<?> parent) {
+
+             }
+            private void ShowCoursesOnListView(DOA_DatabaseHelper databaseHelper2) {
+                courseArrayAdapter = new ArrayAdapter<ModelCourses>(
+                        Courses.this, android.R.layout.simple_list_item_1, databaseHelper2.getCoursesList());
+                lvCourses.setAdapter(courseArrayAdapter);
+
+                lvCourses.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        Toast.makeText(Courses.this, "i am tayad!", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+
     }
+
+
 

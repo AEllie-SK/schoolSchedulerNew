@@ -26,12 +26,11 @@ public class ModelCourses {
     @Override
     public String toString() {
         return id +
-                ", courseTitle='" + courseTitle + '\'' +
-                ", startDate='" + startDate + '\'' +
-                ", endDate='" + endDate + '\'' +
-                ", status='" + status + '\'' +
-                ", courseNote='" + courseNote + '\'' +
-                '}';
+                " Title='" + courseTitle + '\n' +
+                " startDate='" + startDate + '\n' +
+                " endDate='" + endDate + '\n' +
+                " status='" + status + '\n' +
+                " courseNote='" + courseNote + '\n' ;
     }
 
     public ModelCourses() {
