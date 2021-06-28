@@ -1,9 +1,12 @@
 package com.example.schoolschedulernew;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.os.Bundle;
+import android.view.ContextMenu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -23,6 +26,7 @@ public class CourseInstructor extends AppCompatActivity {
 
     ArrayAdapter instructorArrayAdapter;
     DOA_DatabaseHelper databaseHelper;
+
 
 
     @Override
@@ -77,35 +81,42 @@ public class CourseInstructor extends AppCompatActivity {
             }
         });
 
-        courseInstructorListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-
-                DOA_DatabaseHelper databaseHelper = new DOA_DatabaseHelper(CourseInstructor.this);
-                ModelCourseInstructor modelCourseInstructor;
-
-                try {
-                    modelCourseInstructor = new ModelCourseInstructor(-1 , insertInstructorName.getText().toString(),
-                            Integer.parseInt(insertPhoneNumber.getText().toString()),insertEmailText.getText().toString() );
-                    Toast.makeText(CourseInstructor.this, modelCourseInstructor.toString(), Toast.LENGTH_SHORT).show();
-
-                }
-                catch (Exception e) {
-                    Toast.makeText(CourseInstructor.this, "Error updating customer", Toast.LENGTH_SHORT).show();
-                    modelCourseInstructor = new ModelCourseInstructor(-1, "error", 0, "error");
-                }
-
-                databaseHelper.updateInstructor(modelCourseInstructor );
-
-                return  true;
-            }
-        });
         Toolbar toolbar = findViewById(R.id.instructorToolbar);
         setSupportActionBar(toolbar);
 
+        registerForContextMenu(courseInstructorListView);
+
+
+
     }
 
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        getMenuInflater().inflate(R.menu.list_view_menu, menu);
+
+    }
+
+    @Override
+    public boolean onContextItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.lv_delete:
+                DOA_DatabaseHelper databaseHelper = new DOA_DatabaseHelper(CourseInstructor.this);
+                ModelCourseInstructor modelCourseInstructor = new ModelCourseInstructor();
+                boolean success =  databaseHelper.deleteInstructor(modelCourseInstructor);
+                Toast.makeText(this, "Delete selected" + success, Toast.LENGTH_SHORT).show();
+                return true;
+            case  R.id.lv_edit:
+                Toast.makeText(this,"Edit selected", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.lv_view_details:
+                Toast.makeText(this,"View details selected", Toast.LENGTH_SHORT).show();
+                return true;
+            default:
+                return super.onContextItemSelected(item);
+        }
+        
+    }
 
     private void ShowInstructorOnListView(DOA_DatabaseHelper databaseHelper2) {
         instructorArrayAdapter = new ArrayAdapter<ModelCourseInstructor>(CourseInstructor.this, android.R.layout.simple_list_item_1, databaseHelper2.getInstructorsToList());

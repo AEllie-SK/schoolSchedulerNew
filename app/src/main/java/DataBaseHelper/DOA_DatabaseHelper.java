@@ -148,24 +148,37 @@ public class DOA_DatabaseHelper extends SQLiteOpenHelper {
     public boolean updateInstructor(ModelCourseInstructor modelCourseInstructor) {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues cv = new ContentValues();
-        cv.put(INSTRUCTOR_ID, modelCourseInstructor.getInstructorName());
         cv.put(INSTRUCTOR_NAME, modelCourseInstructor.getInstructorName());
         cv.put(PHONE_NUMBER, modelCourseInstructor.getPhoneNumber());
         cv.put(EMAIL_ADDRESS, modelCourseInstructor.getEmailAddress());
 
-        String whereClause = "instructorId=?";
-        String whereArgs[] = {INSTRUCTOR_ID};
-        db.update(INSTRUCTOR_TABLE, cv, whereClause, whereArgs);
+        Cursor cursor = db.rawQuery(" select * from INSTRUCTOR_TABLE WHERE instructorId = ?", new String[]{INSTRUCTOR_ID});
+        if (cursor.getCount() > 0) {
+            String whereClause = "instructorId=?";
+            String whereArgs[] = {INSTRUCTOR_ID};
+            db.update(INSTRUCTOR_TABLE, cv, whereClause, whereArgs);
 
-        return true;
+            return true;
+        }else{
+            return false;
+        }
     }
 
-    public void deleteInstructor(ModelCourseInstructor modelCourseInstructor) {
+    public boolean deleteInstructor(ModelCourseInstructor modelCourseInstructor) {
         SQLiteDatabase db = getWritableDatabase();
-        String whereClause = "id=?";
-        String whereArgs[] = {INSTRUCTOR_ID};
-        db.delete("Items", whereClause, whereArgs);
+
+        Cursor cursor = db.rawQuery(" select * from INSTRUCTOR_TABLE WHERE instructorId = ?", new String[]{INSTRUCTOR_ID});
+        if (cursor.getCount() > 0) {
+            String whereClause = "instructorId=?";
+            String whereArgs[] = {INSTRUCTOR_ID};
+            db.delete(INSTRUCTOR_TABLE, whereClause, whereArgs);
+
+            return true;
+        } else {
+            return false;
+        }
     }
+
 
     //Add term rows
     public boolean addNewTerm(ModelTerm modelTerm) {

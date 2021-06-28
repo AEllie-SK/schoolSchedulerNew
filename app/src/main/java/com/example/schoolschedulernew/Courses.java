@@ -1,11 +1,14 @@
 package com.example.schoolschedulernew;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.os.Bundle;
+import android.view.ContextMenu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -19,6 +22,7 @@ import android.widget.Toast;
 import java.util.Calendar;
 
 import DataBaseHelper.DOA_DatabaseHelper;
+import Models.ModelCourseInstructor;
 import Models.ModelCourses;
 
 
@@ -130,6 +134,36 @@ public class Courses extends AppCompatActivity implements AdapterView.OnItemSele
                     }
                 }
         );
+
+        registerForContextMenu(lvCourses);
+
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        getMenuInflater().inflate(R.menu.list_view_menu, menu);
+
+    }
+
+    @Override
+    public boolean onContextItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.lv_delete:
+                DOA_DatabaseHelper databaseHelper = new DOA_DatabaseHelper(Courses.this);
+                ModelCourseInstructor modelCourseInstructor = new ModelCourseInstructor();
+                boolean success =  databaseHelper.deleteInstructor(modelCourseInstructor);
+                Toast.makeText(this, "Delete selected" + success, Toast.LENGTH_SHORT).show();
+                return true;
+            case  R.id.lv_edit:
+                Toast.makeText(this,"Edit selected", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.lv_view_details:
+                Toast.makeText(this,"View details selected", Toast.LENGTH_SHORT).show();
+                return true;
+            default:
+                return super.onContextItemSelected(item);
+        }
 
     }
 
@@ -268,12 +302,12 @@ public class Courses extends AppCompatActivity implements AdapterView.OnItemSele
                         Courses.this, android.R.layout.simple_list_item_1, databaseHelper2.getCoursesList());
                 lvCourses.setAdapter(courseArrayAdapter);
 
-                lvCourses.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        Toast.makeText(Courses.this, "i am tayad!", Toast.LENGTH_SHORT).show();
-                    }
-                });
+//                lvCourses.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//                    @Override
+//                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                        Toast.makeText(Courses.this, "i am tayad!", Toast.LENGTH_SHORT).show();
+//                    }
+//                });
             }
 
     }

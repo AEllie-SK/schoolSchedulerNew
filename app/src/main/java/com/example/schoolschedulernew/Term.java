@@ -1,11 +1,14 @@
 package com.example.schoolschedulernew;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.os.Bundle;
+import android.view.ContextMenu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -18,6 +21,7 @@ import android.widget.Toast;
 import java.util.Calendar;
 
 import DataBaseHelper.DOA_DatabaseHelper;
+import Models.ModelCourseInstructor;
 import Models.ModelTerm;
 
 
@@ -87,7 +91,6 @@ public class Term extends AppCompatActivity implements AdapterView.OnItemSelecte
 
                 boolean success = databaseHelper.addNewTerm(modelTerm);
 
-                ShowTermsOnListView(databaseHelper);
 
                 Toast.makeText(Term.this, "Success" + success, Toast.LENGTH_SHORT).show();
             }
@@ -109,6 +112,45 @@ public class Term extends AppCompatActivity implements AdapterView.OnItemSelecte
                         endDatePickerDialog.show();
                     }
                 });
+        btnViewTerms.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        ShowTermsOnListView(databaseHelper);
+                    }
+                }
+        );
+
+        registerForContextMenu(lvTerm);
+
+
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        getMenuInflater().inflate(R.menu.list_view_menu, menu);
+
+    }
+
+    @Override
+    public boolean onContextItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.lv_delete:
+                DOA_DatabaseHelper databaseHelper = new DOA_DatabaseHelper(Term.this);
+                ModelCourseInstructor modelCourseInstructor = new ModelCourseInstructor();
+                boolean success =  databaseHelper.deleteInstructor(modelCourseInstructor);
+                Toast.makeText(this, "Delete selected" + success, Toast.LENGTH_SHORT).show();
+                return true;
+            case  R.id.lv_edit:
+                Toast.makeText(this,"Edit selected", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.lv_view_details:
+                Toast.makeText(this,"View details selected", Toast.LENGTH_SHORT).show();
+                return true;
+            default:
+                return super.onContextItemSelected(item);
+        }
 
     }
 
@@ -247,12 +289,12 @@ public class Term extends AppCompatActivity implements AdapterView.OnItemSelecte
                 Term.this, android.R.layout.simple_list_item_1, databaseHelper2.getTermsToList());
         lvTerm.setAdapter(termArrayAdapter);
 
-        lvTerm.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(Term.this, "i am tayad!", Toast.LENGTH_SHORT).show();
-            }
-        });
+//        lvTerm.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                Toast.makeText(Term.this, "i am tayad!", Toast.LENGTH_SHORT).show();
+//            }
+//        });
     }
 
 }
