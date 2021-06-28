@@ -364,7 +364,7 @@ public class DOA_DatabaseHelper extends SQLiteOpenHelper {
                 String startDate = cursor.getString(2);
                 String endDate = cursor.getString(3);
                 String status = cursor.getString(4);
-                String note = cursor.getString(6);
+                String note = cursor.getString(5);
 
 
 

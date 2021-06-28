@@ -101,6 +101,7 @@ public class Term extends AppCompatActivity implements AdapterView.OnItemSelecte
                         startDatePickerDialog.show();
                     }
                 });
+
         endDatePicker.setOnClickListener(
                 new View.OnClickListener() {
                     @Override

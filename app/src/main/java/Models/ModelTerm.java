@@ -23,10 +23,9 @@ public class ModelTerm {
     @Override
     public String toString() {
         return  id +
-                ", termTitle='" + termTitle + '\'' +
-                ", termStartDate=" + termStartDate +
-                ", termEndDate=" + termEndDate +
-                '}';
+                "Title=" + termTitle + '\n' +
+                "StartDate=" + termStartDate + '\n' +
+                "EndDate=" + termEndDate ;
     }
 
     //Getters &Setters
