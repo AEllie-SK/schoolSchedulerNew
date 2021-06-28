@@ -9,13 +9,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".CourseDetails"></activity>
-        <activity android:name=".Courses" />
-        <activity android:name=".Assessments" />
+        <activity android:name=".Courses"
+            android:label="COURSES"/>
+        <activity android:name=".Assessments"
+            android:label="ASSESSMENTS"/>
         <activity
             android:name=".CourseInstructor"
-            android:parentActivityName=".MainActivity" />
-        <activity android:name=".Term" />
+            android:parentActivityName=".MainActivity"
+            android:label="INSTRUCTORS"/>
+        <activity android:name=".Term"
+            android:label="TERMS"/>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

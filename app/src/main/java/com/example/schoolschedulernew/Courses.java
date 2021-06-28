@@ -102,8 +102,6 @@ public class Courses extends AppCompatActivity implements AdapterView.OnItemSele
 
                 boolean success = databaseHelper.addNewCourse(modelCourses);
 
-                ShowCoursesOnListView(databaseHelper);
-
                 Toast.makeText(Courses.this, "Success" + success, Toast.LENGTH_SHORT).show();
             }
         });
@@ -123,6 +121,15 @@ public class Courses extends AppCompatActivity implements AdapterView.OnItemSele
                         endDatePickerDialog.show();
                     }
                 });
+
+        btnViewCourses.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        ShowCoursesOnListView(databaseHelper);
+                    }
+                }
+        );
 
     }
 

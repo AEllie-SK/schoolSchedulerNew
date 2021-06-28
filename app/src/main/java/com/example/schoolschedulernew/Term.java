@@ -1,6 +1,7 @@
 package com.example.schoolschedulernew;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
@@ -53,10 +54,8 @@ public class Term extends AppCompatActivity implements AdapterView.OnItemSelecte
 
 
 
-        //Create Toolbar
-//        Toolbar toolbar = findViewById(R.id.coursesToolbar);
-//        setSupportActionBar(toolbar);
-//Tool Bar Not Working (Need a Miracle)
+        Toolbar toolbar = findViewById(R.id.termToolbar);
+        setSupportActionBar(toolbar);
 
 
         initDatePicker();

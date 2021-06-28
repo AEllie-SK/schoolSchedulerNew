@@ -1,6 +1,7 @@
 package com.example.schoolschedulernew;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.os.Bundle;
 import android.view.View;
@@ -39,7 +40,6 @@ public class CourseInstructor extends AppCompatActivity {
 
         databaseHelper = new DOA_DatabaseHelper(CourseInstructor.this);
 
-        ShowInstructorOnListView(databaseHelper);
 
         //listeners
         btn_Add.setOnClickListener(new View.OnClickListener() {
@@ -62,7 +62,6 @@ public class CourseInstructor extends AppCompatActivity {
 
                 boolean success = databaseHelper.addNewInstructor(modelCourseInstructor);
 
-                ShowInstructorOnListView(databaseHelper);
 
                 Toast.makeText(CourseInstructor.this, "Success" + success, Toast.LENGTH_SHORT).show();
             }
@@ -102,6 +101,8 @@ public class CourseInstructor extends AppCompatActivity {
                 return  true;
             }
         });
+        Toolbar toolbar = findViewById(R.id.instructorToolbar);
+        setSupportActionBar(toolbar);
 
     }
 

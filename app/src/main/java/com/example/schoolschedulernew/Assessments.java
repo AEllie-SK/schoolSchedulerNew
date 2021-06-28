@@ -12,6 +12,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import java.util.Calendar;
 
@@ -85,6 +86,8 @@ public class Assessments extends AppCompatActivity {
                         datePickerDialog.show();
                     }
                 });
+        Toolbar toolbar = findViewById(R.id.assessmentsToolbar);
+        setSupportActionBar(toolbar);
 
     }
 //        public void openDatePicker (View view){
